@@ -4,11 +4,6 @@ import styles from './app.module.css';
 export const App = () => {
 	const [task, setTask] = useState([]); // Держим список задач в состоянии
 
-	// const onClickHandler = () => {
-	// 	const newTask = [...task, { id: Date.now(), title: 'Задача' }];
-	// 	setTask(newTask);
-	// };
-	// Загружаем список задач с сервера с JSON Placeholder при первом рендере
 	useEffect(() => {
 		fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
 			.then((response) => response.json())
