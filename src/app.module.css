@@ -1,5 +1,5 @@
 .container {
-	height: 100vh;
+	/* height: 100vh; */
 	background-color: darkgray;
 	text-align: center;
 	max-width: 950px;
@@ -13,15 +13,20 @@
 	gap: 10px;
 	margin-top: 20px;
 }
+.todo_list {
+	list-style: none;
+	padding: 0;
+}
 
 .todo_item {
 	display: flex;
-	flex-direction: column;
-	/* align-items: center; */
-	justify-content: space-between;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 	list-style: none;
 	padding: 10px;
 	gap: 10px;
+	border-bottom: 1px solid #ddd;
 }
 .todo_item input {
 	margin-right: 10px;

@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './app.module.css';
 
 export const App = () => {
@@ -48,11 +48,12 @@ export const App = () => {
 
 	// 🔎 Фильтрация задач по поисковой фразе
 	const filteredTask = task.filter(
-		// (task) => task.title.toLowerCase().includes(search.toLowerCase()),
-		task.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
+		(task) =>
+			// (task) => task.title.toLowerCase().includes(search.toLowerCase()),
+			task.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
 		// Фильтрация задач по ДЕБАУНС-фразе
 	);
-	// Сортировка задачи
+	// Сортировка задачи по алфавиту
 	const sortedTask = isSorted
 		? [...filteredTask].sort((a, b) => a.title.localeCompare(b.title))
 		: filteredTask;
@@ -64,7 +65,7 @@ export const App = () => {
 		);
 		setTask(updateTasks); // Обновляем состояние
 
-		const updateTask = task.find((task) => task.id === id); // Находим задачу по id
+		const updateTask = updateTasks.find((task) => task.id === id); // Находим задачу по id
 		fetch(`http://localhost:3000/tasks/${id}`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -87,6 +88,7 @@ export const App = () => {
 			<div className={styles.card}>
 				<h2>Спискок задач:</h2>
 				<div className={styles.todo_input_container}>
+					{/* Поле ввода для поиска задачи */}
 					<input
 						type="text"
 						value={search}
@@ -104,16 +106,17 @@ export const App = () => {
 					<button className={styles.btn} onClick={addTask}>
 						Добавить
 					</button>
-					<button onClick={() => setIsSorted(!isSorted)}>
+					{/* // Кнопка сортировки */}
+					<button onClick={() => setIsSorted(!isSorted)} className={styles.btn}>
 						{isSorted ? 'Отменить сортировку' : 'Сортировать A-Z'}
 					</button>
 				</div>
 				{loading ? <p>Загрузка...</p> : null}
 
 				{/* Список задач */}
-				<ul className={styles.todo_item}>
+				<ul className={styles.todo_list}>
 					{sortedTask.map((task) => (
-						<li key={task.id}>
+						<li key={task.id} className={styles.todo_item}>
 							<input
 								type="checkbox"
 								checked={task.completed}
