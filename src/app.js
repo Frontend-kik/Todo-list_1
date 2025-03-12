@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import styles from './app.module.css';
 
 export const App = () => {
@@ -7,6 +7,7 @@ export const App = () => {
 	const [newTask, setNewTask] = useState(''); // Новая задача
 	const [search, setSearch] = useState(''); // Поиск задачи
 	const [isSorted, setIsSorted] = useState(''); // сортировка задачи
+	const [debouncedSearch, setDebouncedSearch] = useState(''); // Дебаунс-поиск
 
 	// Загружаем данные с сервера при первом рендере
 	useEffect(() => {
@@ -17,6 +18,15 @@ export const App = () => {
 			.catch((error) => console.log('Ошибка загрузки данных:', error))
 			.finally(() => setLoading(false)); // После загрузки данных устанавливаем состояние загрузки в false
 	}, []);
+
+	// 🎯 Дебаунс-функция для поиска (ждем 300 мс после последнего ввода)
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setDebouncedSearch(search);
+		}, 300);
+		return () => clearTimeout(timer); // Очищаем таймер при каждом новом вводе
+	}, [search]);
 
 	// Добавление новой задачи
 	const addTask = () => {
@@ -37,8 +47,10 @@ export const App = () => {
 	};
 
 	// 🔎 Фильтрация задач по поисковой фразе
-	const filteredTask = task.filter((task) =>
-		task.title.toLowerCase().includes(search.toLowerCase()),
+	const filteredTask = task.filter(
+		// (task) => task.title.toLowerCase().includes(search.toLowerCase()),
+		task.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
+		// Фильтрация задач по ДЕБАУНС-фразе
 	);
 	// Сортировка задачи
 	const sortedTask = isSorted
