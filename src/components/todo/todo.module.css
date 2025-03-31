@@ -1,0 +1,18 @@
+.todo {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #bbb;
+}
+.todo:last-child {
+  border: none;
+}
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px 0;
+}
+
+.title {
+  width: 100%;
+  margin-right: 10px;
+}
